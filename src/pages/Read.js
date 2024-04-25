@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const UsersList = () => {
   const dispatch = useDispatch();
-  const { users, loading, error } = useSelector((state) => state.app); // Assuming 'app' is the name of your slice
+  const { users, loading, error } = useSelector((state) => state.app);
 
   useEffect(() => {
     dispatch(fetchUsers());

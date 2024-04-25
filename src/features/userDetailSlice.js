@@ -68,7 +68,7 @@ export const updateUser = createAsyncThunk(
       const response = await fetch(
         `https://66289b2e54afcabd07364774.mockapi.io/crud/${id}`,
         {
-          method: "PUT", // Assuming your API uses PUT for updating
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -148,7 +148,7 @@ export const userDetail = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
-        // Assuming the API returns the updated user, replace it in the state
+        //the API returns the updated user, replacing it in the state
         state.users = state.users.map((user) =>
           user.id === action.payload.id ? action.payload : user
         );

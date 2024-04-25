@@ -12,8 +12,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<UserForm />} />
         <Route exact path="/read" element={<Read />} />
-        <Route exact path="/edit/:userId" element={<EditUser />} />{" "}
-        {/* Corrected route */}
+        <Route exact path="/edit/:userId" element={<EditUser />} />
         <Route
           path="*"
           element={
