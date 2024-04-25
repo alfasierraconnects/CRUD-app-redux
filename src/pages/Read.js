@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, deleteUser } from "../features/userDetailSlice";
+import { Link } from "react-router-dom";
 
 const UsersList = () => {
   const dispatch = useDispatch();
@@ -65,7 +66,12 @@ const UsersList = () => {
                 >
                   Delete
                 </button>
-                {/* Update button can be added here */}
+                <Link
+                  to={`/edit/${user.id}`}
+                  className="bg-cyan-500 text-white px-4 py-2 rounded mr-2"
+                >
+                  Edit
+                </Link>
               </td>
             </tr>
           ))}

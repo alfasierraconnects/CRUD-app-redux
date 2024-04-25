@@ -61,6 +61,44 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "userDetail/updateUser",
+  async ({ id, ...data }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://66289b2e54afcabd07364774.mockapi.io/crud/${id}`,
+        {
+          method: "PUT", // Assuming your API uses PUT for updating
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const fetchUserById = createAsyncThunk(
+  "userDetail/fetchUserById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://66289b2e54afcabd07364774.mockapi.io/crud/${id}`
+      );
+      const user = await response.json();
+      return user;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const userDetail = createSlice({
   name: "userDetail",
   initialState: {
@@ -102,6 +140,31 @@ export const userDetail = createSlice({
         state.users = state.users.filter((user) => user.id !== action.payload);
       })
       .addCase(deleteUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        // Assuming the API returns the updated user, replace it in the state
+        state.users = state.users.map((user) =>
+          user.id === action.payload.id ? action.payload : user
+        );
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+      .addCase(fetchUserById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchUserById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedUser = action.payload; // Store the fetched user in selectedUser
+      })
+      .addCase(fetchUserById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.message;
       });
